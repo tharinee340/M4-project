@@ -19,6 +19,8 @@ function searchAnime(event) {
 function onLoad(){
     document.getElementById('searchButton')
     .addEventListener('click', searchAnime)
+    favList.style.display = 'none'
+    
 
 }
 
@@ -57,6 +59,7 @@ function addFavAnimeToDB() {
     titleElem.innerHTML = anime.title
 }
 
+//เพิ่มหนังที่ชอบ
 function addAnimeToDB(anime) {
 
     var id = 1
@@ -90,4 +93,77 @@ function addAnimeToDB(anime) {
         alert('Error cannot at favorite')
     })
 }
+
+//เรียกหนังที่ชอบมาแสดง
+function favListAnime(anime) {
+    fetch(`https://se104-project-backend.du.r.appspot.com/movies/632110340`, {
+        method: 'GET'
+    }).then((response) => {
+        return response.json()
+    }).then((data) => {
+        data.map((element) => {
+            console.log(element)
+            addFavToCard(element)
+        })
+        alert('Add student successfully')
+        
+    })
+}
+
+document.getElementById('favLink').addEventListener('click',(event) => {
+    favListAnime()
+    favList.style.display = 'block'
+})
+
+//เอาค่ารายการที่ชอบมาใส่
+function addFavToCard(anime) {
+    
+    const favList = document.getElementById('favList')
+    let card = document.createElement('div')
+    let img = document.createElement('img')
+    
+    img.setAttribute('src',anime.image_url)
+    card.appendChild(img) 
+    
+
+    let titleAnime = document.createElement('h5')
+    titleAnime.innerHTML = `${anime.title}`
+    titleAnime.classList.add('text-white')
+    card.appendChild(titleAnime)
+
+    let row = document.createElement('row')
+    let btnDetail = document.createElement('button')
+    btnDetail.classList.add('btn')
+	btnDetail.classList.add('btn-primary')
+    btnDetail.innerText = 'Detail'
+    row.appendChild(btnDetail)
+
+
+    let btnDelete = document.createElement('button')
+    btnDelete.classList.add('btn')
+	btnDelete.classList.add('btn-danger')
+    btnDelete.innerText = 'Delete'
+    btnDelete.addEventListener('click', function() {
+        let confirmMsg = confirm(`ท่านต้องการลบอนิเมะเรื่อง ${anime.title}หรือไม่`)
+        if (confirmMsg) {
+            deleteFavAnime(anime.mal_id)
+        }
+       
+    })
+
+    row.appendChild(btnDelete)
+
+    card.appendChild(row)
+    favList.appendChild(card)
+}
+
+
+var searchList = document.getElementById('searchList')
+var favList = document.getElementById('favList')
+function hideAll() {
+    searchList.style.display ='none'
+    favList.style.display = 'none'
+
+}
+
 
