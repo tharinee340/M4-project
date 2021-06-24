@@ -284,6 +284,25 @@ function addAnimeDetailToCard(anime) {
     //ค่อยว่ากัน
 }
 
-
+//ลบรายการที่ชอบออก
+function deleteFavAnime(id) {
+    fetch(`https://se104-project-backend.du.r.appspot.com/movie?id=632110340&&movieId=${id}`, {
+		method: 'DELETE'
+	}).then((response) => {
+		if (response.status === 200){
+			return response.json()
+		}else {
+			throw Error(response.statusText)
+		}
+	}).then(data => {
+		alert(`student
+         name ${data.title} is now deleted`)
+         const favList = document.getElementById('favList')
+         favList.innerHTML = ''
+		favListAnime()
+	}).catch((error) => {
+		alert(error)('your input student is not in database')
+	})
+}
 
 
