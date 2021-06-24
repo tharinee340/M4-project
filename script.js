@@ -1,9 +1,12 @@
 var searchList = document.getElementById('searchOutput')
 var favList = document.getElementById('favOutput')
 var animeDetail = document.getElementById('animeDetail')
+var brand = document.getElementById('brand')
 function hideAll() {
     searchList.style.display ='none'
     favList.style.display = 'none'
+    animeDetail.style.display = 'none'
+    brand.style.display = 'none'
 
 }
 
@@ -21,6 +24,7 @@ function searchAnime(event) {
             searchList.style.display ='block'
             favList.style.display = 'none'
             animeDetail.style.display = 'none'
+            brand.style.display = 'none'
         })
     }).catch((err) => {
         console.warn(err.message)
@@ -38,6 +42,8 @@ function onLoad(){
         searchAnime()
     })
     favList.style.display = 'none'
+    animeDetail.style.display = 'none'
+    brand.style.display = 'block'
      
 
 }
@@ -61,6 +67,7 @@ function addAnimeToCard(anime) {
             addAnimeToDB(anime) 
             searchList.style.display ='none'
             favList.style.display = 'block'
+            brand.style.display = 'none'
         }
 
     })
@@ -145,6 +152,7 @@ document.getElementById('favLink').addEventListener('click',(event) => {
     
     searchList.style.display = 'none'
     animeDetail.style.display = 'none'
+    brand.style.display = 'none'
     favListAnime()
     
     favList.style.display = 'block'
@@ -192,7 +200,7 @@ function addFavToCard(anime) {
     btnDelete.classList.add('btn')
 	btnDelete.classList.add('btn-danger' , 'mx-2')
     btnDelete.innerText = 'Delete'
-    btnDelete.style.width = '75px'
+    btnDelete.style.width = '80px'
     btnDelete.addEventListener('click', function() {
         let confirmMsg = confirm(`ท่านต้องการลบอนิเมะเรื่อง ${anime.title}หรือไม่`)
         if (confirmMsg) {
@@ -246,6 +254,8 @@ function addAnimeDetailToCard(anime) {
     let img = document.createElement('img')
     img.setAttribute('src',anime.image_url)
     cell2.appendChild(img)
+    img.height = 350
+    img.width = 260
     cell.appendChild(cell2)
 
     let cell3 = document.createElement('div')
@@ -268,6 +278,9 @@ function addAnimeDetailToCard(anime) {
 
     let detail4 = document.createElement('p')
     detail4.innerHTML = `Rated : ${anime.rated}`
+
+    let detail5 = document.createElement('p')
+    detail5.innerHTML = `Url : ${anime.url}`
     
     cell3.appendChild(title)
     
@@ -275,6 +288,7 @@ function addAnimeDetailToCard(anime) {
     cell3.appendChild(detail2)
     cell3.appendChild(detail3)
     cell3.appendChild(detail4)
+    cell3.appendChild(detail5)
     
     cell.appendChild(cell3)
     
@@ -283,6 +297,12 @@ function addAnimeDetailToCard(anime) {
     
     //ค่อยว่ากัน
 }
+document.getElementById('brand-click').addEventListener('click',(event) => {
+    brand.style.display = 'block'
+    searchList.style.display ='none'
+    favList.style.display = 'none'
+    animeDetail.style.display = 'none'
+})
 
 //ลบรายการที่ชอบออก
 function deleteFavAnime(id) {
